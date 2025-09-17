@@ -18,10 +18,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m venv venv
-        pip install --upgrade pip
-        pip install uvicorn
-        pip install -r requirements.txt
         source venv/bin/activate
+        pip install --upgrade pip
+        pip install "fastapi[standard]""
+        pip install -r requirements.txt
 
     - name: Run FastAPI
       run: |
