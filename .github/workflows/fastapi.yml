@@ -17,15 +17,12 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m venv venv
-        source venv/bin/activate
-        pip install --upgrade pip
+        python -m pip install --upgrade pip
         pip install "fastapi[standard]"
         pip install -r requirements.txt
 
     - name: Run FastAPI
       run: |
-        source venv/bin/activate
-        fastapi dev main.py
+        uvicorn main:app --host 0.0.0.0 --port 8000 &
         sleep 5
         curl http://127.0.0.1:8000
