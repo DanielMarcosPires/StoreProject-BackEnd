@@ -1,0 +1,29 @@
+name: Run FastAPI
+
+on: [push]
+
+jobs:
+  run-fastapi:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run FastAPI
+      run: |
+        nohup uvicorn main:app --host 0.0.0.0 --port 8000 &
+        sleep 5
+        curl http://127.0.0.1:8000
