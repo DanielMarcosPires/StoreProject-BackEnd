@@ -44,21 +44,26 @@ async def chatBot(text:Input):
 
 @app.post("/api/products")
 async def registerProducts(product:Product):
-    print(product)
-    query = (product.Name, product.Category, product.Quantity,product.PriceUnity)
-    connection.execute(f"Insert into Produto(Name,Category,Quantity,PriceUnity) Values(?,?,?,?)", query)
-    connection.commit()
-    return {
-        "products": [product]
-    }
+    try:
+        print(product)
+        query = (product.name,product.image, product.category, product.quantity,product.price)
+        result = connection.execute(f"Insert into Produto(name,image,category,quantity,price) Values(?,?,?,?,?)", query)
+        connection.commit()
+        return {"message":"Produto Cadastrado!"}
+    except NameError:
+       print(NameError)
 
 @app.get("/api/products")
 async def getProducts():
-    produtos = connection.execute("Select * from Produto").fetchall()
+    produtos = connection.execute("Select id,name,image,category,quantity,printf('%.2f',price) as price from Produto").fetchall()
     return [dict(x) for x in produtos]
 
 @app.delete("/api/products")
 async def deleteProducts(Nome:str):
-    connection.execute("delete from Produto where Name = ?",(Nome,))
+    connection.execute("delete from Produto where name = ?",(Nome,))
     connection.commit()
     return{"Message": f"{Nome} deletado com sucesso!"}
+
+@app.put("/api/products")
+async def putProducts():
+    return {}

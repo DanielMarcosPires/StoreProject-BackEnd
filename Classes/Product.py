@@ -1,8 +1,10 @@
+from typing import Optional
 from pydantic import BaseModel
 
 class Product(BaseModel):
-    Name:str
-    Category:str
-    Quantity:int
-    PriceUnity:float
+    name:str
+    image:Optional[str]
+    category:str
+    quantity:int
+    price:float
    
